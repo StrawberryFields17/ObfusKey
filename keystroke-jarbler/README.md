@@ -1,4 +1,4 @@
-# 🔐 ObfusKey
+#  ObfusKey
 
 A hybrid **C# + Python** security tool that protects against keyloggers by:
 - Intercepting physical keyboard input.
@@ -9,7 +9,7 @@ A hybrid **C# + Python** security tool that protects against keyloggers by:
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 ObfusKey/
@@ -35,22 +35,22 @@ ObfusKey/
 
 ---
 
-## 💡 Features
+##  Features
 
-### 1. 🛡️ Secure Keyboard Hook
+### 1.  Secure Keyboard Hook
 - Intercepts all key presses.
 - Prevents propagation to OS through normal channels (making keyloggers blind).
 - Re-injects keys using `SendInput`, simulating natural behavior.
 
-### 2. 🔄 Named Pipe Control (Python → C#)
+### 2.  Named Pipe Control (Python → C#)
 - Send `TOGGLE_JARBLE` command from Python to toggle protection.
 - Fully decoupled control layer.
 
-### 3. 🖥️ GUI Interface (C#)
+### 3.  GUI Interface (C#)
 - Simple Windows Form with a toggle button.
 - Live display of obfuscation status (`ENABLED` / `DISABLED`).
 
-### 4. 🔐 AES-Encrypted Logging
+### 4.  AES-Encrypted Logging
 - Logs keystrokes securely to `encrypted_keystrokes.log`.
 - Uses Python's `cryptography` module (Fernet/AES-256).
 - Includes timestamp for each keystroke.
@@ -62,7 +62,7 @@ ObfusKey/
 
 ---
 
-## 🧪 How To Run
+##  How To Run
 
 ### 1. Build and Run C# Hook
 - Open `CSharpHook.csproj` in Visual Studio.
@@ -83,31 +83,31 @@ python pipe_client.py
 
 ---
 
-## 🛠️ Installer (optional)
+##  Installer (optional)
 You can package this using:
 - **pyinstaller** for Python scripts → EXE
 - **Inno Setup / NSIS** for bundling C# binary + Python layer into one installer
 
 ---
 
-## 📊 GUI Decrypted Log Viewer (planned)
+##  GUI Decrypted Log Viewer (planned)
 - Future integration to view and decrypt logs from the GUI.
 
 ---
 
-## 🔍 Filtering and Detection (planned)
+##  Filtering and Detection (planned)
 - Add keyword filters to ignore certain inputs (e.g., `CTRL`, `ALT`).
 - Add keylogger detection logic in `monitor.py`.
 
 ---
 
-## 🔒 Security Notes
+##  Security Notes
 - This tool does not defend against kernel-level keyloggers.
 - Best used on trusted systems or VMs to reduce attack surface.
 
 ---
 
-## ✅ Requirements
+##  Requirements
 
 **C# Side**
 - Windows
@@ -117,8 +117,3 @@ You can package this using:
 ```bash
 pip install cryptography pywin32 psutil
 ```
-
----
-
-## 👨‍💻 Author
-**Elementary-Penguin** — designed for developers and researchers interested in anti-keylogging technologies.
