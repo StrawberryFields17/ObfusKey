@@ -41,16 +41,23 @@ fn encrypt_and_log(message: &str) -> Result<(), Box<dyn std::error::Error>> {
     let cipher = Aes256Gcm::new(&key);
     let nonce = generate_nonce();
 
-    let ciphertext = cipher
-        .encrypt(&nonce, message.as_bytes())
-        .map_err(|_| "Encryption failed")?;
+    let ciphertext = match cipher.encrypt(&nonce, message.as_bytes()) {
+    Ok(ct) => ct,
+    Err(e) => {
+        eprintln!("[-] Encryption failed: {:?}", e);
+        return Err(Box::new(e));
+    }
+};
+
+let encoded = base64::encode(&ciphertext);
+
 
     let mut file = OpenOptions::new()
         .create(true)
         .append(true)
         .open("secure.log")?;
 
-    writeln!(file, "{}:{}", hex::encode(nonce), hex::encode(ciphertext))?;
+    writeln!(file, "{}:{}", hex::encode(nonce), encoded)?;
     Ok(())
 }
 
