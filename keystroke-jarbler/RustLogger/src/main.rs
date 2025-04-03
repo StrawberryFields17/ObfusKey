@@ -28,12 +28,13 @@ fn get_or_create_key() -> Result<Key<Aes256Gcm>, Box<dyn std::error::Error>> {
 }
 
 /// Generate a secure random 96-bit nonce
-fn generate_nonce() -> AesNonce {
-    let mut nonce_bytes = [0u8; 12];
-    rand::thread_rng().fill_bytes(&mut nonce_bytes);
-    GenericArray::clone_from_slice(&nonce_bytes)
-}
+use aes_gcm::aead::generic_array::GenericArray;
+type AesNonce = GenericArray<u8, typenum::U12>; // GCM expects 96-bit (12 byte) nonce
 
+fn generate_nonce() -> AesNonce {
+    let nonce_bytes = rand::random::<[u8; 12]>();
+    GenericArray::from_slice(&nonce_bytes).clone()
+}
 /// Encrypt a message and write nonce+ciphertext to secure.log
 fn encrypt_and_log(message: &str) -> Result<(), Box<dyn std::error::Error>> {
     let key = get_or_create_key()?;
