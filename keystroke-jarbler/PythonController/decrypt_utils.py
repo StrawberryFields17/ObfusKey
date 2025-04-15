@@ -79,6 +79,7 @@ def export_logs(logs: list[str], format: str, outfile: str):
             f.write("\n".join(logs))
 
 if __name__ == "__main__":
+    parser.add_argument("--test", type=str, help="Test-decrypt a single encrypted line (base64)")
     parser = argparse.ArgumentParser(description="Decrypt encrypted log files.")
     parser.add_argument("--key", type=str, default=str(Path(__file__).parent.parent / "data" / "aes_key.key"))
     parser.add_argument("--dir", type=str, default=str(Path(__file__).parent.parent / "data"))
@@ -93,6 +94,15 @@ if __name__ == "__main__":
     decryptor = LogDecryptor(Path(args.key))
     all_logs = decryptor.batch_decrypt(Path(args.dir))
     filtered_logs = filter_logs(all_logs, since=args.since, grep=args.grep, limit=args.limit)
+    decryptor = LogDecryptor(Path(args.key))
+
+    if args.test:
+        try:
+            decrypted = decryptor.fernet.decrypt(args.test.encode()).decode()
+            print(f"[✓] Decrypted: {decrypted}")
+        except Exception as e:
+            print(f"[!] Decryption failed: {e}")
+        exit(0)
 
     if args.outfile:
         export_logs(filtered_logs, args.output_format, args.outfile)
